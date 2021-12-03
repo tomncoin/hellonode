@@ -1,0 +1,27 @@
+
+extends ../layouts/common.pug
+block content
+    h3 Users
+
+    h5
+        a(href='/users/create', class="btn btn-success") Create 
+
+    form(action="/users/search") 
+        .input-group
+            input(type='text',name='n',class="form-control")
+            button(class="btn btn-info") Search
+
+    table.table
+        tr 
+            th Name 
+            th Phone
+            th
+        each user  in users
+            tr 
+                td= user.name
+                td= user.phone
+                td
+                    a(href="/users/view/"+user.id) View
+
+
+
