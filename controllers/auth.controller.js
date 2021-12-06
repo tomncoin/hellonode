@@ -45,7 +45,8 @@ module.exports.postLogin = function(req, res){
     }
 
     res.cookie("userId", user.id,{
-        signed: true
+        signed: true,
+        maxAge: 60
     });
     res.redirect('/');
 };
