@@ -12,6 +12,7 @@
   "dependencies": {
     "cookie-parse": "^0.4.0",
     "cookie-parser": "^1.4.6",
+    "csurf": "^1.11.0",
     "dotenv": "^10.0.0",
     "express": "^4.17.1",
     "lowdb": "^1.0.0",

@@ -2,7 +2,6 @@ var express= require("express");
 var router = express.Router();
 var shortid=require('shortid');
 
-var db = require("../_db");
 
 var authMiddleware = require("../middlewares/auth.middleware");
 
