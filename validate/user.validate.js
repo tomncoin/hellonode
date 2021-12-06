@@ -1,4 +1,4 @@
-module.exports.postCreate=function(){
+module.exports.postCreate=function(req, res, next){
     var errors = [];
 
     if(!req.body.name){
@@ -6,7 +6,7 @@ module.exports.postCreate=function(){
     }
 
     if(errors.length){
-        res.render("products/create",{
+        res.render("users/create",{
             errors: errors,
             values: req.body
         });

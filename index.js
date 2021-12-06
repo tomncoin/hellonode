@@ -20,7 +20,6 @@ app.use(cookieParser(process.env.SESSION_SECRET));
 
 
 //#region Users
-
 var low=require('lowdb');
 var fileSync=require('lowdb/adapters/FileSync');
 var adapter=new fileSync('db.json');
@@ -28,6 +27,7 @@ var db=low(adapter);
 db.defaults({Users:[]})
     .write();
 
+var userRoute = require("./routes/user.route");
 var productRoute = require("./routes/product.route");
 var authRoute = require("./routes/auth.route");
 
@@ -41,73 +41,10 @@ app.get('/', authMiddleware.requireAuth, function(req, res){
     );
 });
 
-// var users=[
-//     {id: 1, name: 'Smith'},
-//     {id:2, name: 'John'},
-//     {id: 1, name: 'Victoria'},
-// ];
-
-app.get('/users',function(req, res){
-    //res.send('Welcome to members area');
-    
-    // res.render('users/index',{
-    //     users: users
-    // });
-
-    res.render('users/index',{
-        users: db.get("Users").value()
-    });
-});
-
-app.get("/users/search",function(req,res){
-    var q=req.query.n;
-
-
-    //  var matchUsers = users.filter(function(user){
-    //      return user.name.indexOf(q) !== -1;
-    //  })
-    
-    var matchUsers = db.get('Users').value().filter(function(user){
-        return user.name.indexOf(q) !== -1;
-    })
-
-    
-    res.render('users/index',{
-        users:matchUsers
-    });
-
-    console.log(req.query);
-});
-
-app.get("/users/create",function(req, res){
-    console.log(req.cookies);
-    res.render("users/create");
-});
-
-app.post("/users/create", function(req, res){
-
-    req.body.id=shortid.generate();
-    req.body.password = md5(req.body.password);
-    //users.push(req.body);
-    db.get("Users").push(req.body).write();
-
-    res.redirect('/users');
-
-    // console.log(req.body);
-});
-
-app.get("/users/view/:id",function(req,res){
-    var id=req.params.id;
-    var user=db.get("Users").find({id:id}).value();
-    res.render("users/view",{
-        user:user
-    });
-});
-
-
 //#endregion
 
-app.use("/products",authMiddleware.requireAuth,productRoute);
+app.use("/users", authMiddleware.requireAuth, userRoute);
+app.use("/products",authMiddleware.requireAuth, productRoute);
 app.use("/auth", authRoute);
 
 //#region cookie
