@@ -6,7 +6,15 @@ var app=express();
 var bodyParser=require('body-parser');
 var shortid=require('shortid');
 var cookieParser = require("cookie-parser");
-var md5 = require('md5');
+
+var authRoute = require("./routes/auth.route");
+var userRoute = require("./routes/user.route");
+var productRoute = require("./routes/product.route");
+var cartRoute = require("./routes/cart.route");
+
+var sessionMiddleware = require('./middlewares/session.middleware');
+var authMiddleware = require("./middlewares/auth.middleware");
+
 
 var port=5000;
 app.set('view engine','pug');
@@ -17,23 +25,9 @@ app.use(bodyParser.urlencoded({extended:true}));
 
 app.use(express.static('public'));
 app.use(cookieParser(process.env.SESSION_SECRET));
+app.use(sessionMiddleware);
 
-
-//#region Users
-var low=require('lowdb');
-var fileSync=require('lowdb/adapters/FileSync');
-var adapter=new fileSync('db.json');
-var db=low(adapter);
-db.defaults({Users:[]})
-    .write();
-
-var userRoute = require("./routes/user.route");
-var productRoute = require("./routes/product.route");
-var authRoute = require("./routes/auth.route");
-
-var authMiddleware = require("./middlewares/auth.middleware");
-
-app.get('/', authMiddleware.requireAuth, function(req, res){
+app.get('/', function(req, res){
     //res.send('Welcome Node.js');
     res.render('index',{
         copy:'Kingo'
@@ -41,18 +35,10 @@ app.get('/', authMiddleware.requireAuth, function(req, res){
     );
 });
 
-//#endregion
-
-app.use("/users", authMiddleware.requireAuth, userRoute);
-app.use("/products",authMiddleware.requireAuth, productRoute);
 app.use("/auth", authRoute);
-
-//#region cookie
-app.get("/users/cookie",function(req, res){
-    res.cookie("userid","123");
-    res.send("hello");
-});
-//#endregion
+app.use("/users", authMiddleware.requireAuth, userRoute);
+app.use("/products",productRoute);
+app.use("/cart", cartRoute);
 
 app.listen(port, function(){
     console.log('Server listening on port '+port);

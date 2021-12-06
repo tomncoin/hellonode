@@ -15,11 +15,12 @@ block content
         each product  in products
             .col-md-3
                 .card(style="")
-                    img(src= product.image, class="card-img-top", alt="...")
+                    a(href="/products/view/"+product.id)
+                        img(src= product.image, class="card-img-top", alt="...")
                     .card-body
                         h5.card-title= product.name
                         p.card-text= product.description
-                        a(href="#", class="btn btn-primary") Add to cart
+                        a(href="/cart/add/"+product.id, class="btn btn-primary") Add to cart
     div(class="pt-2")
         nav(aria-label='Page navigation example')
             ul.pagination.justify-content-center

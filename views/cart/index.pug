@@ -1,0 +1,30 @@
+
+extends ../layouts/common.pug
+block content
+    h3 Carts
+
+    table.table
+        tr 
+            th(width="100") Id
+            th Name 
+            th Quantity
+            th(width="100")
+
+        //- - for (const product in products) 
+        //-     tr 
+        //-         td= product
+        //-         td
+        //-         td= products[product]
+        //-         td
+        //-             a(href="/products/view/"+product) View
+
+        each val,key  in products
+            tr 
+                td= key
+                td
+                td= val
+                td
+                    a(href="/products/view/"+key) View
+
+
+

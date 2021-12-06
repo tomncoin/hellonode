@@ -56,7 +56,7 @@ router.post("/create1", function(req, res){
 
 router.get("/view/:code",function(req,res){
     var code=req.params.code;
-    var product=db.get("Products").find({code:code}).value();
+    var product=db.get("Products").find({id:code}).value();
     res.render("products/view",{
         product:product
     });
