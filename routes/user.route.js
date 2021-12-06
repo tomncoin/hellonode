@@ -38,7 +38,7 @@ router.get("/create",function(req, res){
     res.render("users/create");
 });
 
-router.post("/create", upload.single('./public/avatar'), validate.postCreate, controller.postCreate);
+router.post("/create", upload.single('avatar'), validate.postCreate, controller.postCreate);
 
 
 

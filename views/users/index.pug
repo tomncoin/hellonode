@@ -13,11 +13,15 @@ block content
 
     table.table
         tr 
+            th(width="100") Avatar
             th Name 
             th Phone
-            th
+            th(width="100")
         each user  in users
             tr 
+                td 
+                    if(user.avatar!=="")
+                        img(src= user.avatar, style="width:32px; ")
                 td= user.name
                 td= user.phone
                 td

@@ -18,6 +18,13 @@ module.exports.postCreate = function(req, res){
    
     req.body.id=shortid.generate();
     req.body.password = md5(req.body.password);
+    if (req.file.path.includes('/')){
+        req.body.avatar = req.file.path.split('/').slice(1).join("/");
+    }
+    else{
+        req.body.avatar = req.file.path.split('\\').slice(1).join("\\");
+    }
+
     //users.push(req.body);
     db.get("Users").push(req.body).write();
 
