@@ -10,21 +10,23 @@ block content
             th Quantity
             th(width="100")
 
-        //- - for (const product in products) 
-        //-     tr 
-        //-         td= product
-        //-         td
-        //-         td= products[product]
-        //-         td
-        //-             a(href="/products/view/"+product) View
-
-        each val,key  in products
-            tr 
-                td= key
-                td
-                td= val
-                td
-                    a(href="/products/view/"+key) View
+        //- if (products)
+        //-     - for (const product in products) 
+        //-         tr 
+        //-             td= product
+        //-             td
+        //-             td= products[product]
+        //-             td
+        //-                 a(href="/products/view/"+product) View
+        
+        if products
+            each val,key  in products
+                tr 
+                    td= key
+                    td
+                    td= val
+                    td
+                        a(href="/products/view/"+key) View
 
 
 
