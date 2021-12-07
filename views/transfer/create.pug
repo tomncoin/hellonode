@@ -7,7 +7,7 @@ block content
             .alert.alert-danger= error
 
     form(action="/transfer/create", method="POST")
-        input(type="hidden", name="_csrf", value=csrfToken)
+        input(type="hidden", name="_csrf", value= csrftoken)
         .mb-3
             lable.form-label Account 
             input.form-control(type="text", name="account", value= values?values.account:'')

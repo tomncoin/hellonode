@@ -8,6 +8,12 @@ var shortid=require('shortid');
 var cookieParser = require("cookie-parser");
 var csurf = require('csurf');
 
+// app.use(function (req, res, next) {
+//     res.cookie('XSRF-TOKEN', req.csrfToken());
+//     res.locals.csrftoken = req.csrfToken();
+//     next();
+// });
+
 var authRoute = require("./routes/auth.route");
 var userRoute = require("./routes/user.route");
 var productRoute = require("./routes/product.route");
@@ -28,7 +34,6 @@ app.use(bodyParser.urlencoded({extended:true}));
 app.use(express.static('public'));
 app.use(cookieParser(process.env.SESSION_SECRET));
 app.use(sessionMiddleware);
-app.use(csurf({cookie: true}));
 
 app.get('/', function(req, res){
     //res.send('Welcome Node.js');
@@ -39,6 +44,7 @@ app.get('/', function(req, res){
 });
 
 app.use("/auth", authRoute);
+app.use(csurf({cookie: true}));
 app.use("/users", authMiddleware.requireAuth, userRoute);
 app.use("/products",productRoute);
 app.use("/cart", cartRoute);
